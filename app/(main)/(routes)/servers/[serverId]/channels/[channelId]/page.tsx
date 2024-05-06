@@ -1,8 +1,10 @@
 import { currentProfile } from "@/lib/current-profile";
 import { redirectToSignIn } from "@clerk/nextjs";
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { ChatHeader } from "@/components/chat/chat-header";
+import { ChatInput } from "@/components/chat/chat-input";
+import { db } from "@/lib/db";
+import { ChatMessages } from "@/components/chat/chat-messages";
 
 
 interface ChannelIdPageProps{
@@ -47,6 +49,30 @@ const member = await db.member.findFirst({
                 serverId={channel.serverId}
                 type="channel"
             />
+            <ChatMessages 
+             member={member}
+             name={channel.name}
+             chatId={channel.id}
+             type="channel"
+             apiUrl="/api/messages"
+             socketUrl="/api/socket/messages"
+             socketQuery={{
+                channelId:channel.id,
+                serverId:channel.serverId,
+             }}
+             paramKey="channelId"
+             paramValue={channel.id}
+            />
+            <ChatInput 
+             name={channel.name}
+             type="channel"
+             apiUrl="/api/socket/messages"
+             query={{
+                channelId:channel.id,
+                serverId:channel.serverId,
+
+             }}
+              />
         </div>
     );
 }
