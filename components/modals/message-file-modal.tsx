@@ -6,14 +6,13 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem,} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { FileUpload } from "@/components/ui/file-upload";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
-  
   fileUrl: z
     .string()
     .min(1, {
@@ -28,8 +27,8 @@ export const MessageFileModal = () => {
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "messageFile";
-  const { apiUrl, query }=data;
-  
+  const { apiUrl, query } = data;
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,17 +38,17 @@ export const MessageFileModal = () => {
   const handleClose = () => {
     form.reset();
     onClose();
-  }
+  };
   const isLoading = form.formState.isSubmitting;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url:apiUrl || "",
+        url: apiUrl || "",
         query,
       });
       await axios.post(url, {
         ...values,
-        content:values.fileUrl,
+        content: values.fileUrl,
       });
       form.reset();
       router.refresh();
@@ -58,7 +57,6 @@ export const MessageFileModal = () => {
       console.log(error);
     }
   };
-
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
@@ -82,7 +80,6 @@ export const MessageFileModal = () => {
                     </FormItem>
                   )}></FormField>
               </div>
-              
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
