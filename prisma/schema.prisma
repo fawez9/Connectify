@@ -61,8 +61,8 @@ model Member {
 
   directMessages DirectMessage[]
 
-  conversationInitiated Conversation? @relation("MemberOne")
-  conversationsReceived Conversation? @relation("MemberTwo")
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived Conversation[] @relation("MemberTwo")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -123,15 +123,15 @@ model Conversation {
   id String @id @default(uuid())
 
   memberOneId String @unique
-  memeberOne  Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+  memberOne Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
 
   memberTwoId String @unique
-  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+  memberTwo Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
 
-  directMessage DirectMessage[]
+  directMessages DirectMessage[]
 
-  @@unique([memberOneId, memberTwoId])
   @@index([memberTwoId])
+  @@unique([memberOneId, memberTwoId])
 }
 
 model DirectMessage {
@@ -139,16 +139,16 @@ model DirectMessage {
   content String  @db.Text
   fileUrl String? @db.Text
 
-  memeberId String
-  member    Member @relation(fields: [memeberId], references: [id], onDelete: Cascade)
+  memberId String
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
-  conversaionId String
-  conversation  Conversation @relation(fields: [conversaionId], references: [id], onDelete: Cascade)
+  conversationId String
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deleted   Boolean  @default(false)
 
-  @@index([memeberId])
-  @@index([conversaionId])
+  @@index([memberId])
+  @@index([conversationId])
 }

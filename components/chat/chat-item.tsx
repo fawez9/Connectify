@@ -79,6 +79,8 @@ export const ChatItem = ({ id, content, member, timestamp, fileUrl, deleted, cur
         query: socketQuery,
       });
       await axios.patch(url, values);
+      form.reset();
+      setIsEditing(false);
     } catch (error) {
       console.log(error);
     }
@@ -143,7 +145,7 @@ export const ChatItem = ({ id, content, member, timestamp, fileUrl, deleted, cur
                     <FormItem className="flex-1">
                       <FormControl>
                         <div className="relative w-full">
-                          <Input disabled={isLoading} className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dar:text-zinc-200" placeholder="Edited message" {...field} />
+                          <Input disabled={isLoading} className="p-2 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200" placeholder="Edited message" {...field} />
                         </div>
                       </FormControl>
                     </FormItem>
@@ -166,7 +168,7 @@ export const ChatItem = ({ id, content, member, timestamp, fileUrl, deleted, cur
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
-            <Trash onClick={() => onOpen("deleteMessage", { apiUrl: `${socketUrl}/${id}`, query: socketQuery })} className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+            <Trash onClick={() => onOpen("deleteMessage", { apiUrl: `${socketUrl}/${id}`, query: socketQuery })} className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 transition" />
           </ActionTooltip>
         </div>
       )}

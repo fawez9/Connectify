@@ -26,7 +26,6 @@ export const DeleteMessageModal = () => {
 
       await axios.delete(url);
       onClose();
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -40,8 +39,7 @@ export const DeleteMessageModal = () => {
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">Delete Message</DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            This action cannot be undone <br />
-            <span className="text-red-500 font-semibold ">#{query?.name}</span> will be permanently deleted
+            are you sure you want to delete this <span className="text-red-500 font-semibold ">message</span> ?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="bg-gray-100 px-6 py-4">
